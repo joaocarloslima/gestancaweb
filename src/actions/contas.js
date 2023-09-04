@@ -24,12 +24,14 @@ export async function create(formData) {
 
 export async function getContas(){
   const result = await fetch(url)
+  const json = await result.json()
 
   if (!result.ok){
-    throw new Error("Não pode carregar as contas do servidor")
+    const message = json.message
+    throw new Error(`Falha ao obter dados das contas. (${result.status} - ${message} )` )
   }
 
-  return result.json()
+  return json
 }
 
    
