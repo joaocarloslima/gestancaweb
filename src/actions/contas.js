@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache"
 
+const url = process.env.NEXT_PUBLIC_BASE_URL + "/contas"
+
 export async function create(formData) {
-    const url = "http://localhost:8080/api/contas"
     const options = {
       method: "POST",
       body: JSON.stringify(Object.fromEntries(formData)),
@@ -20,4 +21,15 @@ export async function create(formData) {
     return {ok: "Conta criada com sucesso"}
 
 }
+
+export async function getContas(){
+  const result = await fetch(url)
+
+  if (!result.ok){
+    throw new Error("Não pode carregar as contas do servidor")
+  }
+
+  return result.json()
+}
+
    

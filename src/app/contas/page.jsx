@@ -1,16 +1,11 @@
 import NavBar from "@/components/NavBar";
 import Conta from "./Conta";
+import { getContas } from "@/actions/contas";
 
-async function getContas(){
-  const url = "http://localhost:8080/api/contas"
-  const result = await fetch(url)
-
-  return result.json()
-}
 
 export default async function Contas() {
   const data = await getContas()
-  console.log("data", data)
+  
   return (
     <>
       <NavBar active={"contas"} />

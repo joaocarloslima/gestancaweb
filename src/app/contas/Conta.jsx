@@ -10,7 +10,7 @@ export default function Conta({ conta }) {
                 <span>{nome}</span>
             </div>
             <div className='flex items-center'>
-                <span>R$ {saldo.toFixed(2)}</span>
+                <span>R$ {saldo}</span>
                 <DropMenu />
             </div>
         </div>
