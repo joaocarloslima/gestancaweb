@@ -11,7 +11,7 @@ export default function Conta({ conta }) {
             </div>
             <div className='flex items-center'>
                 <span>R$ {saldo}</span>
-                <DropMenu />
+                <DropMenu conta={conta} />
             </div>
         </div>
     )

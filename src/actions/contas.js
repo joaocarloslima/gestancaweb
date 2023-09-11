@@ -23,6 +23,8 @@ export async function create(formData) {
 }
 
 export async function getContas(){
+  await new Promise(r => setTimeout(r, 5000));
+
   const result = await fetch(url)
   const json = await result.json()
 
@@ -32,6 +34,56 @@ export async function getContas(){
   }
 
   return json
+}
+
+export async function destroy(id){
+  const options = {
+    method: "DELETE"
+  }
+
+  const deleteURL = `${url}/${id}` 
+
+  const response = await fetch(deleteURL, options)
+  
+  if (!response.ok){
+    const json = await response.json()
+    return {error: "Falha ao apagar conta. " + json.message }
+  }
+
+  revalidatePath("/contas")
+}
+
+export async function getConta(id){
+  const getUrl = `${url}/${id}`
+  const response = await fetch(getUrl)
+  const json = await response.json()
+
+  if (!response.ok){
+    throw new Error("Não foi possível carregar os dados da conta.")
+  }
+
+  return json
+}
+
+export async function update(conta){
+  const updateUrl = `${url}/${conta.id}`
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(conta)
+  }
+
+  const result = fetch (updateUrl, options)
+
+  if (!result.status == 200){
+    return { message: "Erro ao atualizar a conta" }
+  }
+
+  revalidatePath("/contas")
+  return {ok: "Conta criada com sucesso"}
 }
 
    
