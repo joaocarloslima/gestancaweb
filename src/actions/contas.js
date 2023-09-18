@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
 const url = process.env.NEXT_PUBLIC_BASE_URL + "/contas"
 
@@ -23,16 +24,19 @@ export async function create(formData) {
 }
 
 export async function getContas(){
-  await new Promise(r => setTimeout(r, 5000));
-
-  const result = await fetch(url)
-  const json = await result.json()
-
-  if (!result.ok){
-    const message = json.message
-    throw new Error(`Falha ao obter dados das contas. (${result.status} - ${message} )` )
+  const token = cookies().get("gestanca_token")
+  const options = {
+    headers: {
+      "Authorization": `Bearer ${token.value}`
+    }
   }
-
+  const result = await fetch(url, options)
+  
+  if (result.status !== 200){
+    throw new Error(`Falha ao obter dados das contas. (${result.status})` )
+  }
+  
+  const json = await result.json()
   return json
 }
 
