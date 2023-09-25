@@ -6,11 +6,13 @@ import { cookies } from "next/headers"
 const url = process.env.NEXT_PUBLIC_BASE_URL + "/contas"
 
 export async function create(formData) {
+    const token = cookies().get("gestanca_token")
     const options = {
       method: "POST",
       body: JSON.stringify(Object.fromEntries(formData)),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token.value}`
       }
     }
     const result = await fetch(url, options)

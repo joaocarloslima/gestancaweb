@@ -10,6 +10,9 @@ export default async function apiLogin(credenciais){
         body: JSON.stringify(credenciais),
         headers: {
           "Content-Type": "application/json"
+        },
+        next: {
+            revalidate: 0
         }
     }
     const resp = await fetch(url, options)
